@@ -1,0 +1,11 @@
+[build-system]
+requires = ["flit"]
+build-backend = "flit.buildapi"
+
+[tool.flit.metadata]
+module = "hypothesis_bio"
+author = "Luiz Irber"
+author-email = "contact@luizirber.org"
+home-page = "https://github.com/luizirber/hypothesis-bio"
+classifiers = ["License :: OSI Approved :: MIT License"]
+
