@@ -2,4 +2,6 @@
 
 __version__ = "0.1"
 
-import strategies
+from . import strategies
+
+__all__ = [strategies]

@@ -1,5 +1,10 @@
+all: test
+
 test:
-	tox
+	tox -e py37
 
 build:
 	flit build
+
+format:
+	tox -e black
