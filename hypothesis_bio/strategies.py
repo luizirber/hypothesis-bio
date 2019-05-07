@@ -1,16 +1,65 @@
+from enum import Enum, auto
+
 from hypothesis import strategies as st
 
 
-# TODO: we are only testing with fixed k for now
-KSIZE = 13
+DEFAULT_KSIZE = 21
 
 
-# strategy for creating kmers. Alphabet is derived from nucleotides.
-kmer = st.text("ACGT", min_size=KSIZE, max_size=KSIZE)
+class Alphabet(Enum):
+    DNA = auto()
+    DNA_N = auto()
+    DNA_IUPAC = auto()
+    RNA = auto()
+    RNA_N = auto()
+    RNA_IUPAC = auto()
+    PROTEIN = auto()
+
+
+SYMBOLS = {
+    Alphabet.DNA: "ACGT",
+    Alphabet.DNA_N: "ACGTN",
+    Alphabet.DNA_IUPAC: "ACGTN",
+    Alphabet.RNA: "ACGU",
+    Alphabet.RNA_N: "ACGUN",
+    Alphabet.RNA_IUPAC: "ACGURYSWKMBDHVNZ",
+    Alphabet.PROTEIN: "ARNDCEQGHILKMFPSTWYV"
+}
+
+
+def symbols(alphabet: Alphabet) -> str:
+    return SYMBOLS[alphabet]
+
+
+def complement(c: str, alphabet: Alphabet = Alphabet.DNA) -> str:
+    raise NotImplementedError()
+
 
 
 @st.composite
-def sequence(draw):
+def kmer(draw, *, alphabet="ACGT", k=DEFAULT_KSIZE):
+    """
+    A :mod:`hypothesis` strategy for creating k-mers, short sliding window
+    substrings from a sequence.
+
+    Parameters
+    ----------
+    draw
+        For internal hypothesis use.
+    ksize: int
+        Substring size. Must be positive.
+
+    Returns
+    -------
+    string
+        a string with length k
+    """
+    # strategy for creating kmers. Alphabet is derived from nucleotides.
+    return draw(st.text(alphabet, min_size=k, max_size=k))
+
+
+@st.composite
+def sequence(draw, *, alphabet="ACGT", max_size=1000):
     """
     A :mod:`hypothesis` strategy for building nucleotide sequences
 
@@ -18,6 +67,8 @@ def sequence(draw):
     ----------
     draw
         For internal hypothesis use.
+    max_size: int
+        Length of the generated sequence. Must be positive.
 
     Returns
     -------
@@ -25,7 +76,7 @@ def sequence(draw):
         a string representing a nucleotide sequence
     """
 
-    return draw(st.text("ACGT", min_size=KSIZE, max_size=1000))
+    return draw(st.text(alphabet, max_size=max_size))
 
 
 # strategy for creating valid FASTA records
