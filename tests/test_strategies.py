@@ -1,21 +1,32 @@
 from hypothesis import given, assume
 from hypothesis import strategies as st
+import pytest
 
 from hypothesis_bio.strategies import (
     sequence,
     Alphabet,
     symbols,
     kmers,
+    kmer,
     reverse_complement,
 )
 
 
 @given(st.data(), st.sampled_from(Alphabet))
-def test_sequence_random(data, alphabet):
+def test_sequence(data, alphabet):
     seq_string = data.draw(sequence(alphabet=alphabet))
 
     assert isinstance(seq_string, str)
     assert all(nt in symbols(alphabet) for nt in seq_string)
+
+
+@given(st.data(), st.sampled_from(Alphabet), st.integers(min_value=0, max_value=150))
+def test_kmer(data, alphabet, ksize):
+    kmer_s = data.draw(kmer(alphabet=alphabet, k=ksize))
+
+    assert isinstance(kmer_s, str)
+    assert all(nt in symbols(alphabet) for nt in kmer_s)
+    assert len(kmer_s) == ksize
 
 
 @given(st.data(), st.sampled_from(Alphabet), st.booleans())
@@ -31,3 +42,8 @@ def test_kmers(data, alphabet, rc):
         assert kmer_s in seq or reverse_complement(kmer_s, alphabet) in seq
     else:
         assert kmer_s in seq
+
+
+def test_invalid_rc():
+    with pytest.raises(ValueError):
+        reverse_complement("A", alphabet=Alphabet.PROTEIN)
