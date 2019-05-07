@@ -9,4 +9,4 @@ def test_sequence_random(data):
     seq_string = data.draw(sequence())
 
     assert isinstance(seq_string, str)
-    assert all(nt in 'ACGT' for nt in seq_string)
+    assert all(nt in "ACGT" for nt in seq_string)
