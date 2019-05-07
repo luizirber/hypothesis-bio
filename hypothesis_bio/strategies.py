@@ -1,4 +1,4 @@
-from enum import Enum, auto
+from enum import Enum
 
 from hypothesis import strategies as st
 
@@ -7,13 +7,13 @@ DEFAULT_KSIZE = 21
 
 
 class Alphabet(Enum):
-    DNA = auto()
-    DNA_N = auto()
-    DNA_IUPAC = auto()
-    RNA = auto()
-    RNA_N = auto()
-    RNA_IUPAC = auto()
-    PROTEIN = auto()
+    DNA = 1
+    DNA_N = 2
+    DNA_IUPAC = 3
+    RNA = 4
+    RNA_N = 5
+    RNA_IUPAC = 6
+    PROTEIN = 7
 
 
 SYMBOLS = {
@@ -23,7 +23,7 @@ SYMBOLS = {
     Alphabet.RNA: "ACGU",
     Alphabet.RNA_N: "ACGUN",
     Alphabet.RNA_IUPAC: "ACGURYSWKMBDHVNZ",
-    Alphabet.PROTEIN: "ARNDCEQGHILKMFPSTWYV"
+    Alphabet.PROTEIN: "ARNDCEQGHILKMFPSTWYV",
 }
 
 
@@ -33,7 +33,6 @@ def symbols(alphabet: Alphabet) -> str:
 
 def complement(c: str, alphabet: Alphabet = Alphabet.DNA) -> str:
     raise NotImplementedError()
-
 
 
 @st.composite
