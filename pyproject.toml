@@ -7,8 +7,20 @@ module = "hypothesis_bio"
 author = "Luiz Irber"
 author-email = "contact@luizirber.org"
 home-page = "https://github.com/luizirber/hypothesis-bio"
-classifiers = ["License :: OSI Approved :: MIT License"]
-requires = [
-    "hypothesis"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: Hypothesis",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Topic :: Software Development :: Testing",
 ]
-requires-python=">=3.5"
+requires = [
+    "hypothesis >= 4.0.0"
+]
+requires-python = ">=3.5"
+description-file = "README.md"
