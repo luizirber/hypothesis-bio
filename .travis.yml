@@ -11,8 +11,7 @@ cache:
 
 install:
   - pip install --upgrade pip wheel
-  - pip install tox-travis codecov
+  - pip install tox-travis
 script: tox
 after_success:
-  - tox -e coverage
-  - codecov
+  - tox -e coverage,codecov

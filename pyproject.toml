@@ -29,7 +29,6 @@ description-file = "README.md"
 testing= [
     "pytest >=2.7.3",
     "pytest-cov",
-    "pytest-xdist >= 1.22.2, <2",
 ]
 docs = [
     "sphinx >= 2.0.0, < 3",
