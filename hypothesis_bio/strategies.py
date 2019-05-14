@@ -3,7 +3,6 @@ from enum import Enum
 from hypothesis import assume
 from hypothesis import strategies as st
 
-
 DEFAULT_KSIZE = 21
 
 
@@ -249,7 +248,7 @@ def stop_codon(draw, stop_codons=CANONICAL_STOP_CODONS):
 @st.composite
 def codon(draw, *, stop_codons=CANONICAL_STOP_CODONS):
     """
-    A :mod:`hypothesis` strategy for getting one codon 
+    A :mod:`hypothesis` strategy for getting one codon
 
     Parameters
     ----------
@@ -291,7 +290,7 @@ def non_stop_codon(draw, *, stop_codons=CANONICAL_STOP_CODONS):
     ----------
     """
     cdn = draw(codon())
-    assume(not cdn in stop_codons)
+    assume(cdn not in stop_codons)
     return cdn
 
 
