@@ -18,6 +18,17 @@ This module can be installed via `pip`:
 pip install hypothesis-bio
 ```
 
+## Development
+
+Tests can be executed using tox:
+`tox -e py37` runs all tests in a Python 3.7 environment.
+
+There are also [pre-commit][pre-commit] files available, so you can run
+`pre-commit install` to add them to your repo.
+(These are enforced by CI)
+
+[pre-commit]: https://pre-commit.com/
+
 ## See also
 
 This module is based on [Hypothesis-networkx][nx], [hypothesis-csv][csv] and
