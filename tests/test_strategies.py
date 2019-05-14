@@ -1,14 +1,14 @@
-from hypothesis import given, assume
-from hypothesis import strategies as st
 import pytest
+from hypothesis import assume, given
+from hypothesis import strategies as st
 
 from hypothesis_bio.strategies import (
-    sequence,
     Alphabet,
-    symbols,
-    kmers,
     kmer,
+    kmers,
     reverse_complement,
+    sequence,
+    symbols,
 )
 
 

@@ -24,3 +24,14 @@ requires = [
 ]
 requires-python = ">=3.5"
 description-file = "README.md"
+
+[tool.flit.metadata.requires-extra]
+testing= [
+    "pytest >=2.7.3",
+    "pytest-cov",
+]
+docs = [
+    "sphinx >= 2.0.0, < 3",
+    "pygments-github-lexers >= 0.0.5",
+    "sphinxcontrib-autoprogram >= 0.1.5",
+]

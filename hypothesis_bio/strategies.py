@@ -2,7 +2,6 @@ from enum import Enum
 
 from hypothesis import strategies as st
 
-
 DEFAULT_KSIZE = 21
 
 
