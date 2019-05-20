@@ -66,8 +66,8 @@ def kmer(draw, *, alphabet: Alphabet = Alphabet.DNA, k: int = DEFAULT_KSIZE):
 
     Returns
     -------
-    string
-        a string with length k
+    hypothesis.searchstrategy
+        a strategy for generating a string with length k
     """
 
     return draw(st.text(symbols(alphabet), min_size=k, max_size=k))
@@ -101,8 +101,8 @@ def kmers(
 
     Returns
     -------
-    string
-        a string with length k
+    hypothesis.searchstrategy
+        a strategy for generating a string with length k
     """
     assert len(seq) >= k
 
@@ -135,8 +135,8 @@ def sequence(draw, *, alphabet: Alphabet = Alphabet.DNA, max_size: int = 1000):
 
     Returns
     -------
-    string
-        a string representing a nucleotide sequence
+    hypothesis.searchstrategy
+        a strategy for generating a string representing a nucleotide sequence
     """
 
     return draw(st.text(symbols(alphabet), max_size=max_size))
@@ -235,8 +235,8 @@ def stop_codon(stop_codons=CANONICAL_STOP_CODONS):
 
     Returns
     -------
-    string
-        a single stop codon
+    hypothesis.searchstrategy
+        a strategy for generating a single stop codon
     ----------
     """
     return st.sampled_from(stop_codons)
@@ -248,8 +248,8 @@ def codon():
 
     Returns
     -------
-    string
-        a single codon
+    hypothesis.searchstrategy
+        a strategy for generating a single codon
     ----------
     """
     return st.sampled_from(ALL_CODONS)
@@ -266,8 +266,8 @@ def non_stop_codon(stop_codons=CANONICAL_STOP_CODONS):
 
     Returns
     -------
-    string
-        a single non-stop codon
+    hypothesis.searchstrategy
+        a strategy for generating a single non-stop codon
     ----------
     """
     return codon().filter(lambda cdn: not cdn in stop_codons)
@@ -306,8 +306,8 @@ def coding_sequence(
 
     Returns
     -------
-    string 
-        a single coding sequence
+    hypothesis.searchstrategy
+        a strategy for generating a single coding sequence
     ----------
     """
     if include_start_codon:
@@ -318,6 +318,10 @@ def coding_sequence(
     return st.builds(
         "{}{}{}".format,
         st.just("ATG" if include_start_codon else ""),
-        st.lists(non_stop_codon() if include_stop_codon else non_stop_codon(), min_size=min_size, max_size=max_size).map("".join),
+        st.lists(
+            non_stop_codon() if include_stop_codon else non_stop_codon(),
+            min_size=min_size,
+            max_size=max_size,
+        ).map("".join),
         stop_codon() if include_stop_codon else st.just(""),
     )
