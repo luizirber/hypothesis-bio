@@ -131,7 +131,7 @@ def stop_codon(stop_codons=CANONICAL_STOP_CODONS):
     return st.sampled_from(stop_codons)
 
 
-def codon(stop_codons=CANONICAL_STOP_CODONS):
+def codon():
     """
     A :mod:`hypothesis` strategy for getting one codon 
 
@@ -140,13 +140,10 @@ def codon(stop_codons=CANONICAL_STOP_CODONS):
     draw
         For internal hypothesis use.
 
-    stop_codons: list[string]
-        The list of accepted stop codons
-
     Returns
     -------
     string
-        a singel codon
+        a single codon
     ----------
     """
     return st.sampled_from(ALL_CODONS)
@@ -163,9 +160,6 @@ def non_stop_codon(stop_codons=CANONICAL_STOP_CODONS):
 
     stop_codons: list[string]
         The list of accepted stop codons
-
-    **kwargs
-        Additional arguments sent to :mod:`lists`
 
     Returns
     -------
@@ -197,15 +191,15 @@ def coding_sequence(
         If True, append a start codon (ATG)
 
     allow_internal_stops: bool
-        If True, allow stop codons inside the codings sequence
+        If True, allow stop codons inside the coding sequence
 
     **kwargs
-        Additional arguments passed to :mod:`codons`
+        Additional arguments passed to :mod:`lists`
 
     Returns
     -------
-    list(string)
-        a list of non-stop codons
+    string 
+        a single coding sequence
     ----------
     """
     return st.builds(
