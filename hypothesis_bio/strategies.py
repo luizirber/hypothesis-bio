@@ -229,8 +229,6 @@ def stop_codon(stop_codons=CANONICAL_STOP_CODONS):
 
     Parameters
     ----------
-    draw
-        For internal hypothesis use.
 
     stop_codons: list[string]
             a list of stop codons (defaults to the canonical TAA, TGA, and TAG)
@@ -248,11 +246,6 @@ def codon():
     """
     A :mod:`hypothesis` strategy for getting one codon
 
-    Parameters
-    ----------
-    draw
-        For internal hypothesis use.
-
     Returns
     -------
     string
@@ -268,9 +261,6 @@ def non_stop_codon(stop_codons=CANONICAL_STOP_CODONS):
 
     Parameters
     ----------
-    draw
-        For internal hypothesis use.
-
     stop_codons: list[string]
         The list of accepted stop codons
 
