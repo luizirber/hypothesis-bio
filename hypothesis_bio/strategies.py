@@ -171,18 +171,26 @@ def non_stop_codon(stop_codons=CANONICAL_STOP_CODONS):
 
 
 def coding_sequence(
+    min_size=None,
+    max_size=None,
     include_stop_codon=True,
     include_start_codon=True,
     allow_internal_stops=False,
-    **kwargs
 ):
     """
     A :mod:`hypothesis` strategy for building coding sequences
 
     Parameters
     ----------
-    draw
-        For internal hypothesis use.
+    min_size: int
+        The minimum number of codons that will be generated (not including the
+        stop codon). This number must be greater than or equal to zero. A
+        sequence of length 0 will be either an empty string or a single stop
+        codon.
+
+    max_size: int
+        The maximum number of non-stop codons in the sequence. max_size must be
+        greater than or equal to min_size.
 
     include_stop_codon: bool
         If True, append a stop codon
@@ -193,18 +201,20 @@ def coding_sequence(
     allow_internal_stops: bool
         If True, allow stop codons inside the coding sequence
 
-    **kwargs
-        Additional arguments passed to :mod:`lists`
-
     Returns
     -------
     string 
         a single coding sequence
     ----------
     """
+    if include_start_codon:
+        if min_size:
+            min_size -= 1
+        if max_size:
+            max_size -= 1
     return st.builds(
         "{}{}{}".format,
         st.just("ATG" if include_start_codon else ""),
-        st.lists(non_stop_codon() if include_stop_codon else non_stop_codon(), **kwargs).map("".join),
+        st.lists(non_stop_codon() if include_stop_codon else non_stop_codon(), min_size=min_size, max_size=max_size).map("".join),
         stop_codon() if include_stop_codon else st.just(""),
     )
