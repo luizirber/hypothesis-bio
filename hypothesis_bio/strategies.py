@@ -110,8 +110,7 @@ ALL_CODONS = tuple(CANONICAL_GENE_CODE.keys())
 CANONICAL_STOP_CODONS = ("TAA", "TGA", "TAG")
 
 
-@st.composite
-def stop_codon(draw, stop_codons=CANONICAL_STOP_CODONS):
+def stop_codon(stop_codons=CANONICAL_STOP_CODONS):
     """
     A :mod:`hypothesis` strategy for building stop codons
 
@@ -129,11 +128,10 @@ def stop_codon(draw, stop_codons=CANONICAL_STOP_CODONS):
         a single stop codon
     ----------
     """
-    return draw(st.sampled_from(stop_codons))
+    return st.sampled_from(stop_codons)
 
 
-@st.composite
-def codon(draw, *, stop_codons=CANONICAL_STOP_CODONS):
+def codon(stop_codons=CANONICAL_STOP_CODONS):
     """
     A :mod:`hypothesis` strategy for getting one codon 
 
@@ -151,11 +149,10 @@ def codon(draw, *, stop_codons=CANONICAL_STOP_CODONS):
         a singel codon
     ----------
     """
-    return draw(st.sampled_from(ALL_CODONS))
+    return st.sampled_from(ALL_CODONS)
 
 
-@st.composite
-def non_stop_codon(draw, *, stop_codons=CANONICAL_STOP_CODONS):
+def non_stop_codon(stop_codons=CANONICAL_STOP_CODONS):
     """
     A :mod:`hypothesis` strategy for building non-stop codons
 
@@ -176,15 +173,10 @@ def non_stop_codon(draw, *, stop_codons=CANONICAL_STOP_CODONS):
         a single non-stop codon
     ----------
     """
-    cdn = draw(codon())
-    assume(not cdn in stop_codons)
-    return cdn
+    return codon().filter(lambda cdn: not cdn in stop_codons)
 
 
-@st.composite
 def coding_sequence(
-    draw,
-    *,
     include_stop_codon=True,
     include_start_codon=True,
     allow_internal_stops=False,
@@ -216,17 +208,9 @@ def coding_sequence(
         a list of non-stop codons
     ----------
     """
-    if include_start_codon:
-        start = "ATG"
-    else:
-        start = ""
-    if include_stop_codon:
-        stop = draw(stop_codon())
-    else:
-        stop = ""
-    if allow_internal_stops:
-        q = draw(st.lists(codon(), **kwargs))
-    else:
-        q = draw(st.lists(non_stop_codon(), **kwargs))
-    cds = start + "".join(q) + stop
-    return cds
+    return st.builds(
+        "{}{}{}".format,
+        st.just("ATG" if include_start_codon else ""),
+        st.lists(non_stop_codon() if include_stop_codon else non_stop_codon(), **kwargs).map("".join),
+        stop_codon() if include_stop_codon else st.just(""),
+    )
