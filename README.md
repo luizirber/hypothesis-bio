@@ -1,3 +1,5 @@
+# ARCHIVED: SEE https://github.com/Lab41/hypothesis-bio FOR UPDATED REPO
+
 [![Build Status][status]][status_link]
 [![codecov][codecov]][codecov_link]
 
